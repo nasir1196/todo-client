@@ -4,11 +4,10 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import { DragDropContext } from "react-beautiful-dnd";
-import Navigationbar from './components/Navigationbar';
 import NoteList from './components/NoteList';
 import EditNote from './components/EditNote';
 import AddNote from './components/AddNote.js';
+import Navbar from './components/Navbar.js';
 
 
 function App() {
@@ -16,55 +15,63 @@ function App() {
     {
       path: "/",
       element: (
-        <div className='mt-10 mx-auto'>
-          <Navigationbar />
-          <Home />
+        <div>
+          <Navbar />
+          <div className='mt-10 mx-auto'>
+            <Home />
+          </div>
         </div>
       ),
     },
     {
       path: "/home",
       element: (
-        <div className='mt-10 mx-auto'>
-          <Navigationbar />
-          <Home />
+        <div>
+          <Navbar />
+          <div className='mt-10 mx-auto'>
+            <Home />
+          </div>
         </div>
       )
     },
     {
       path: "/add-note",
       element: (
-        <div className='mt-10 mx-auto'>
-          <Navigationbar />
-          <AddNote />
+        <div>
+          <Navbar />
+          <div className='mt-10 mx-auto'>
+            <AddNote />
+          </div>
         </div>
       )
     },
     {
       path: "/note-list",
       element: (
-        <div className='mt-10 mx-auto'>
-          <Navigationbar />
-          <NoteList />
+        <div>
+          <Navbar />
+          <div className='mt-10 mx-auto'>
+            <NoteList />
+          </div>
         </div>
       )
     },
     {
       path: "/edit-note",
       element: (
-        <div className='mt-10 mx-auto'>
-          <Navigationbar />
-          <EditNote />
+        <div>
+          <Navbar />
+          <div className='mt-10 mx-auto'>
+            <EditNote />
+          </div>
         </div>
       )
     },
   ]);
-  
+
   return (
     <NoteState>
-      <DragDropContext>
-        <RouterProvider router={router} />
-      </DragDropContext>
+      <RouterProvider router={router} />
     </NoteState>
   );
 }

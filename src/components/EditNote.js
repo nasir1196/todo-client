@@ -8,8 +8,6 @@ function EditNote() {
     const context = useContext(NoteContext)
     const { updateNoteController, note, setNote } = context;
 
-
-
     const handleUpdate = (e) => {
         e.preventDefault()
         const { id, description, title, tag } = note;

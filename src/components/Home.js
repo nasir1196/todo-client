@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { NoteContext } from '../contextApi/NoteContext';
 import { Link } from 'react-router-dom';
 
@@ -8,12 +7,6 @@ import { Link } from 'react-router-dom';
 function Home() {
     const context = useContext(NoteContext)
     const { count, getAllNote, notes, setNote, deleteNoteController } = context;
-
-
-    useEffect(() => {
-        getAllNote()
-    }, [count])
-
 
     const deleteHandler = (id) => {
         deleteNoteController(id)
@@ -24,13 +17,16 @@ function Home() {
         setNote({ id: _id, title: title, description: description, tag: tag })
     }
 
+    useEffect(() => {
+        getAllNote()
+    }, [count])
+
     return (
         <div>
             <h1 className='text-center text-green-700 text-4xl font-extrabold m-5'>Todo Note List</h1>
             <div className='grid lg:grid-cols-3 md:grid-cols-2 md:gap-2 lg:gap-4' >
                 {
-
-                    notes.note && notes.note.map((note) => {
+                    notes && notes?.map((note) => {
                         const { title, description, tag, status, _id } = note
                         return (
                             <div key={_id} className=' m-2 p-3 transition-colors ease-in-out' style={{ border: "1px solid black", borderRadius: "0.5rem" }}>

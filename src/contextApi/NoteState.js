@@ -9,12 +9,11 @@ const NoteState = (props) => {
     const [notes, setNotes] = useState(initialNote)
     const [count, setCount] = useState(0)
     const [note, setNote] = useState({ id: "", title: "", description: "", tag: "", status: "" })
-
     // get note function
     const getAllNote = async () => {
         try {
             const res = await axios.get(`${hostAPI}/api/note/getnote`)
-            setNotes(res.data)
+            setNotes(res.data.note)
         } catch (error) {
             return alert(`Something went wrong - ${error.message}`)
         }
@@ -66,9 +65,9 @@ const NoteState = (props) => {
 
     //update note status function
     const updateNoteStatusController = async (id, status) => {
+        console.log(status)
         try {
-            const res = await axios.patch(`${hostAPI}/api/note/notestatus/${id}`, status)
-            const json = await res.data;
+            await axios.patch(`${hostAPI}/api/note/notestatus/${id}`, status)
 
             let updateStatus = JSON.parse(JSON.stringify(notes));
             // logic to edit in client
@@ -81,9 +80,7 @@ const NoteState = (props) => {
             }
             setNotes(updateStatus)
 
-            if (json) {
-                alert("update status successfully done")
-            }
+
         } catch (error) {
             return alert(`Something went wrong - ${error.message}`)
         }

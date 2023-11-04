@@ -1,25 +1,25 @@
-import React, { useContext, useEffect} from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Button, Card, Typography } from "@material-tailwind/react";
 import { NoteContext } from '../contextApi/NoteContext';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate} from "react-router-dom"
 
 const TABLE_HEAD = ["Title", "Tag", "Data", "Status", "Add Status", "Submit Status"];
 
 function NoteList() {
-    const context = useContext(NoteContext)
-    const {count, notes, getAllNote, updateNoteStatusController ,note, setNote} = context;
-    
     const navigate = useNavigate()
+    const context = useContext(NoteContext)
+    const { count, notes, getAllNote, updateNoteStatusController, note, setNote } = context;
+    
+
+    const handleStatus = (e, id, note) => {
+        e.preventDefault()
+        updateNoteStatusController(id, note)
+        navigate("/")
+    }
 
     useEffect(() => {
         getAllNote()
     }, [count])
-
-    const handleStatus = (e, id) => {
-        e.preventDefault()
-        updateNoteStatusController(id, note)
-        navigate("/home", { replace: true })
-    }
     return (
         <div>
             <Card className="h-full w-full overflow-scroll">
@@ -40,43 +40,45 @@ function NoteList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {notes?.note?.map(({ title, tag, date, status, _id }, index) => {
-                            const isLast = index === notes.note.length - 1;
+                        {notes?.map((items, index) => {
+                            const isLast = index === notes?.length - 1;
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
+
                             return (
-                                <tr key={_id}>
+                                <tr key={items._id}>
                                     <td className={classes}>
                                         <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {title}
+                                            {items.title}
                                         </Typography>
                                     </td>
                                     <td className={`${classes} bg-blue-gray-50/50`}>
                                         <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {tag}
+                                            {items.tag}
                                         </Typography>
                                     </td>
                                     <td className={classes}>
                                         <Typography variant="small" color="blue-gray" className="font-normal">
-                                            {date}
+                                            {items.date}
                                         </Typography>
                                     </td>
                                     <td className={`${classes} bg-blue-gray-50/50`}>
                                         <Typography variant="small" color="blue-gray" className="font-medium">
-                                            {status}
+                                            {items.status}
                                         </Typography>
                                     </td>
                                     <td className='d-flex justify-center items-center'>
-                                        <select id="city" className='py-2 rounded-lg border m-1  text-black w-96 hover:bg-rose-500 hover:border-emerald-500' placeholder='Enter Your City' type="text" value={note.status} onChange={(e) => setNote({ ...note, status: e.target.value })}>
+                                        <select value={note.status}  onChange={(e) => setNote({ ...note, status: e.target.value })}>
                                             <option>Add Status</option>
-                                            <option value="Pending">Pending</option>
                                             <option value="Active">Active</option>
                                             <option value="Reject">Reject</option>
+                                            <option value="Pending">Pending</option>
                                         </select>
                                     </td>
                                     <td>
-                                        <Button disabled={!note.status} onClick={(e) => handleStatus(e, _id, note)}>Submit Status</Button>
+                                        <Button onClick={(e) => handleStatus(e, items._id, note)}>Status</Button>
                                     </td>
+
                                 </tr>
                             );
                         })}
