@@ -9,11 +9,12 @@ const NoteState = (props) => {
     const [notes, setNotes] = useState(initialNote)
     const [count, setCount] = useState(0)
     const [note, setNote] = useState({ id: "", title: "", description: "", tag: "", status: "" })
+    const [api, setApi] = useState({})
     // get note function
     const getAllNote = async () => {
         try {
             const res = await axios.get(`${hostAPI}/api/note/getnote`)
-            setNotes(res.data.note)
+            setNotes(res.data)
         } catch (error) {
             return alert(`Something went wrong - ${error.message}`)
         }
@@ -25,12 +26,10 @@ const NoteState = (props) => {
             const res = await axios.post(`${hostAPI}/api/note/postnote`, noteValue)
             const noteData = await res.data
 
-            if (noteData) {
-                alert("Note Added")
-            }
-            setNotes(notes.concat(noteData))
+            setApi(noteData)
+            setNotes(notes.note.concat(noteData))
         } catch (error) {
-            return alert(`Something went wrong - ${error.message}`)
+            return console.log(`Something went wrong - ${error.message}`)
         }
     }
 
@@ -39,10 +38,9 @@ const NoteState = (props) => {
         try {
             const updateValue = { title, description, tag }
             const res = await axios.put(`${hostAPI}/api/note/updatenote/${id}`, updateValue)
-
             const json = await res.data;
+            let newNotes = JSON.parse(JSON.stringify(notes.note));
 
-            let newNotes = JSON.parse(JSON.stringify(notes));
             // logic to edit in client
             for (let index = 0; index < newNotes.length; index++) {
                 const element = newNotes[index]
@@ -53,13 +51,11 @@ const NoteState = (props) => {
                     break;
                 }
             }
-            setNotes(newNotes)
 
-            if (json) {
-                alert("Note update successfully done")
-            }
+            setNotes(newNotes)
+            setApi(json)
         } catch (error) {
-            return alert(`Something went wrong - ${error.message}`)
+            return console.log(`Something went wrong - ${error.message}`)
         }
     }
 
@@ -67,7 +63,7 @@ const NoteState = (props) => {
     const updateNoteStatusController = async (id, status) => {
         console.log(status)
         try {
-            await axios.patch(`${hostAPI}/api/note/notestatus/${id}`, status)
+            const res = await axios.patch(`${hostAPI}/api/note/notestatus/${id}`, status)
 
             let updateStatus = JSON.parse(JSON.stringify(notes));
             // logic to edit in client
@@ -79,10 +75,9 @@ const NoteState = (props) => {
                 }
             }
             setNotes(updateStatus)
-
-
+            setApi(res.data)
         } catch (error) {
-            return alert(`Something went wrong - ${error.message}`)
+            return console.log(`Something went wrong - ${error.message}`)
         }
     }
 
@@ -91,19 +86,16 @@ const NoteState = (props) => {
         try {
             const res = await axios.delete(`${hostAPI}/api/note/deletenote/${id}`)
             const json = res.data;
-            const newNote = notes.filter((note) => note._id !== id)
+            const newNote = notes?.note?.filter((note) => note._id !== id)
             setNotes(newNote)
-
-            if (json) {
-                alert("Note deleted done!")
-            }
+            setApi(json)
         } catch (error) {
-            return alert(`Something went wrong - ${error.message}`)
+            return console.log(`Something went wrong - ${error.message}`)
         }
     }
 
     return (
-        <NoteContext.Provider value={{ count, setCount, note, setNote, notes, setNotes, getAllNote, addNoteController, updateNoteController, updateNoteStatusController, deleteNoteController }}>
+        <NoteContext.Provider value={{ api, count, setCount, note, setNote, notes, setNotes, getAllNote, addNoteController, updateNoteController, updateNoteStatusController, deleteNoteController }}>
             {props.children}
         </NoteContext.Provider>
     )

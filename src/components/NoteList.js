@@ -1,22 +1,26 @@
 import React, { useContext, useEffect } from 'react';
 import { Button, Card, Typography } from "@material-tailwind/react";
 import { NoteContext } from '../contextApi/NoteContext';
-import {useNavigate} from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 
 const TABLE_HEAD = ["Title", "Tag", "Data", "Status", "Add Status", "Submit Status"];
 
 function NoteList() {
     const navigate = useNavigate()
     const context = useContext(NoteContext)
-    const { count, notes, getAllNote, updateNoteStatusController, note, setNote } = context;
-    
+    const { api, count, notes, getAllNote, updateNoteStatusController, note, setNote } = context;
 
-    const handleStatus = (e, id, note) => {
+
+    const handleStatus = (e, id, noteStatus) => {
         e.preventDefault()
-        updateNoteStatusController(id, note)
-        navigate("/")
-    }
+        updateNoteStatusController(id, noteStatus)
 
+        if (api) {
+            setTimeout(() => {
+                navigate("/")
+            }, 1000);
+        }
+    }
     useEffect(() => {
         getAllNote()
     }, [count])
@@ -40,8 +44,8 @@ function NoteList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {notes?.map((items, index) => {
-                            const isLast = index === notes?.length - 1;
+                        {notes?.note?.map((items, index) => {
+                            const isLast = index === notes?.note?.length - 1;
                             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
 
@@ -68,7 +72,7 @@ function NoteList() {
                                         </Typography>
                                     </td>
                                     <td className='d-flex justify-center items-center'>
-                                        <select value={note.status}  onChange={(e) => setNote({ ...note, status: e.target.value })}>
+                                        <select value={note.status} onChange={(e) => setNote({ ...note, status: e.target.value })}>
                                             <option>Add Status</option>
                                             <option value="Active">Active</option>
                                             <option value="Reject">Reject</option>

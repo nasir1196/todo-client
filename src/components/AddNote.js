@@ -4,19 +4,23 @@ import { NoteContext } from '../contextApi/NoteContext'
 
 const AddNote = () => {
     const context = useContext(NoteContext)
-    const { addNoteController, note, setNote } = context;
+    const { addNoteController, note, setNote, api } = context;
     const navigate = useNavigate()
 
     const handleAddAdmin = (e) => {
         e.preventDefault()
 
         const { title, description } = note;
-        
+
         if (!title && !description) {
             alert("Please provide todo data!")
         } else {
             addNoteController(note)
-            navigate("/home", { replace: true })
+            if (api) {
+                setTimeout(() => {
+                    navigate("/home", { replace: true })
+                }, 1500)
+            }
         }
     }
 
