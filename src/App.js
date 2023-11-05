@@ -46,7 +46,7 @@ function App() {
       )
     },
     {
-      path: "/note-list",
+      path: "/manage-note",
       element: (
         <div>
           <Navbar />

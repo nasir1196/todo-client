@@ -27,7 +27,7 @@ const NoteState = (props) => {
             const noteData = await res.data
 
             setApi(noteData)
-            setNotes(notes.note.concat(noteData))
+            setNotes(notes.concat(noteData))
         } catch (error) {
             return console.log(`Something went wrong - ${error.message}`)
         }
@@ -61,7 +61,6 @@ const NoteState = (props) => {
 
     //update note status function
     const updateNoteStatusController = async (id, status) => {
-        console.log(status)
         try {
             const res = await axios.patch(`${hostAPI}/api/note/notestatus/${id}`, status)
 

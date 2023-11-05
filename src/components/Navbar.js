@@ -15,7 +15,7 @@ const Navbar = () => {
     const navigation = [
         location.pathname === "/home" ? { name: 'Home', to: '/home', current: true } : { name: 'Home', to: '/home', current: false },
         location.pathname === "/add-note" ? { name: 'Add Note', to: '/add-note', current: true } : { name: 'Add Note', to: '/add-note', current: false },
-        location.pathname === "/note-list" ? { name: 'Note List', to: '/note-list', current: true } : { name: 'Note List', to: '/note-list', current: false },
+        location.pathname === "/manage-note" ? { name: 'Manage Note', to: '/manage-note', current: true } : { name: 'Manage Note', to: '/manage-note', current: false },
 
     ];
 

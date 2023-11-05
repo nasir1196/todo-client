@@ -17,7 +17,11 @@ function Home() {
     const handleData = (_id, title, description, tag) => {
         setNote({ id: _id, title: title, description: description, tag: tag })
     }
-    
+
+    if (api.success === true) {
+        window.location.reload(false)
+    }
+
     useEffect(() => {
         getAllNote()
     }, [count])
