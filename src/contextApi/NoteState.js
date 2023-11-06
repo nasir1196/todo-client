@@ -8,8 +8,10 @@ const NoteState = (props) => {
     const initialNote = []
     const [notes, setNotes] = useState(initialNote)
     const [count, setCount] = useState(0)
-    const [note, setNote] = useState({ id: "", title: "", description: "", tag: "", status: "" })
+    const [note, setNote] = useState({ id: "", title: "", description: "", tag: ""})
     const [api, setApi] = useState({})
+    const [star, setStar] = useState("")
+
     // get note function
     const getAllNote = async () => {
         try {
@@ -94,7 +96,7 @@ const NoteState = (props) => {
     }
 
     return (
-        <NoteContext.Provider value={{ api, count, setCount, note, setNote, notes, setNotes, getAllNote, addNoteController, updateNoteController, updateNoteStatusController, deleteNoteController }}>
+        <NoteContext.Provider value={{star, setStar, api, count, setCount, note, setNote, notes, setNotes, getAllNote, addNoteController, updateNoteController, updateNoteStatusController, deleteNoteController }}>
             {props.children}
         </NoteContext.Provider>
     )
