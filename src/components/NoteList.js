@@ -30,7 +30,10 @@ function NoteList() {
 
   const handleStatus = (e, id) => {
     e.preventDefault();
-    updateNoteStatusController(id, star);
+    setStar({ status: e.target.value });
+    if (star) {
+      updateNoteStatusController(id, star);
+    }
 
     if (api) {
       setTimeout(() => {
@@ -70,27 +73,27 @@ function NoteList() {
           {notes?.map((items, index) => {
             const isLast = index === notes?.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
-            const { _id, title, description, tag } = items;
+            const { _id, title, description, tag, date, status } = items;
             return (
-              <tr key={items._id}>
+              <tr key={_id}>
                 <td className={classes}>
                   <p color="blue-gray" className="font-normal">
-                    {items.title}
+                    {title}
                   </p>
                 </td>
                 <td className={`${classes} bg-blue-gray-50/50`}>
                   <p color="blue-gray" className="font-normal">
-                    {items.tag}
+                    {tag}
                   </p>
                 </td>
                 <td className={classes}>
                   <p color="blue-gray" className="font-normal">
-                    {items.date}
+                    {date}
                   </p>
                 </td>
                 <td className={`${classes} bg-blue-gray-50/50`}>
                   <p color="blue-gray" className="font-medium">
-                    {items.status}
+                    {status}
                   </p>
                 </td>
 
@@ -98,39 +101,21 @@ function NoteList() {
                   <button
                     value="Active"
                     className="bg-green-500 m-2 text-black py-2 px-5 rounded-md"
-                    onClick={(e) =>
-                      handleStatus(
-                        e,
-                        items._id,
-                        setStar({ ...star, status: e.target.value })
-                      )
-                    }
+                    onClick={(e) => handleStatus(e, _id)}
                   >
                     Active
                   </button>
                   <button
                     value="Pending"
                     className="bg-yellow-500 m-2 text-black py-2 px-5 rounded-md"
-                    onClick={(e) =>
-                      handleStatus(
-                        e,
-                        items._id,
-                        setStar({ ...star, status: e.target.value })
-                      )
-                    }
+                    onClick={(e) => handleStatus(e, _id)}
                   >
                     Pending
                   </button>
                   <button
                     value="Reject"
                     className="bg-red-500 m-2 text-black py-2 px-5 rounded-md"
-                    onClick={(e) =>
-                      handleStatus(
-                        e,
-                        items._id,
-                        setStar({ ...star, status: e.target.value })
-                      )
-                    }
+                    onClick={(e) => handleStatus(e, _id)}
                   >
                     Reject
                   </button>

@@ -99,7 +99,7 @@ const NoteState = (props) => {
     try {
       const res = await axios.delete(`${hostAPI}/api/note/deletenote/${id}`);
       const json = res.data;
-      const newNote = notes?.note?.filter((note) => note._id !== id);
+      const newNote = notes?.filter((note) => note._id !== id);
       setNotes(newNote);
       setApi(json);
     } catch (error) {
