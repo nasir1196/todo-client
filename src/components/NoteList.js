@@ -22,11 +22,15 @@ function NoteList() {
     updateNoteStatusController,
     setNote,
     deleteNoteController,
+    star,
+    setStar,
   } = context;
 
-  const handleStatus = (e, id, noteStatus) => {
+  console.log(star);
+
+  const handleStatus = (e, id) => {
     e.preventDefault();
-    updateNoteStatusController(id, noteStatus);
+    updateNoteStatusController(id, star);
 
     if (api) {
       setTimeout(() => {
@@ -92,25 +96,40 @@ function NoteList() {
 
                 <td className="d-flex justify-center items-center">
                   <button
+                    value="Active"
                     className="bg-green-500 m-2 text-black py-2 px-5 rounded-md"
                     onClick={(e) =>
-                      handleStatus(e, items._id, "Active")
+                      handleStatus(
+                        e,
+                        items._id,
+                        setStar({ ...star, status: e.target.value })
+                      )
                     }
                   >
                     Active
                   </button>
                   <button
+                    value="Pending"
                     className="bg-yellow-500 m-2 text-black py-2 px-5 rounded-md"
                     onClick={(e) =>
-                      handleStatus(e, items._id,  "Pending" )
+                      handleStatus(
+                        e,
+                        items._id,
+                        setStar({ ...star, status: e.target.value })
+                      )
                     }
                   >
                     Pending
                   </button>
                   <button
+                    value="Reject"
                     className="bg-red-500 m-2 text-black py-2 px-5 rounded-md"
                     onClick={(e) =>
-                      handleStatus(e, items._id, "Reject")
+                      handleStatus(
+                        e,
+                        items._id,
+                        setStar({ ...star, status: e.target.value })
+                      )
                     }
                   >
                     Reject
