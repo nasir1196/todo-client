@@ -1,6 +1,6 @@
 # Dynamic Todo CRUD Application
 
-## [Todo-Live](https://dynamictodo.vercel.app)
+## [Todo-Live](https://dynamictodoapp.vercel.app)
 
 ### Using Technology
 * React for UI.
