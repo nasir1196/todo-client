@@ -6,4 +6,7 @@
   margin: 0;
   box-sizing: border-box;
 }
+.transition{
+  transition: transform 0.2s ease-in-out !important;
+}
 

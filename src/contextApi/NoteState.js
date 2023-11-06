@@ -8,7 +8,7 @@ const NoteState = (props) => {
   const [notes, setNotes] = useState(initialNote);
   const [count, setCount] = useState(0);
   const [note, setNote] = useState({
-    id: "",
+    _id: "",
     title: "",
     description: "",
     tag: "",
