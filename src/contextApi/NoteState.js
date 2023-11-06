@@ -15,12 +15,20 @@ const NoteState = (props) => {
     status: "",
   });
   const [api, setApi] = useState({});
-  const [star, setStar] = useState({ status: "" });
 
   // get note function
   const getAllNote = async () => {
     try {
       const res = await axios.get(`${hostAPI}/api/note/getnote`);
+      setNotes(res.data);
+    } catch (error) {
+      console.log(`Something went wrong - ${error.message}`);
+    }
+  };
+  // get note List function
+  const getAllNoteList = async () => {
+    try {
+      const res = await axios.get(`${hostAPI}/api/note/getnotelist`);
       setNotes(res.data);
     } catch (error) {
       console.log(`Something went wrong - ${error.message}`);
@@ -49,7 +57,7 @@ const NoteState = (props) => {
         updateValue
       );
       const json = await res.data;
-      let newNotes = JSON.parse(JSON.stringify(notes.note));
+      let newNotes = JSON.parse(JSON.stringify(notes));
 
       // logic to edit in client
       for (let index = 0; index < newNotes.length; index++) {
@@ -71,7 +79,6 @@ const NoteState = (props) => {
 
   //update note status function
   const updateNoteStatusController = async (id, status) => {
-    console.log(status);
     try {
       const res = await axios.patch(
         `${hostAPI}/api/note/notestatus/${id}`,
@@ -110,8 +117,6 @@ const NoteState = (props) => {
   return (
     <NoteContext.Provider
       value={{
-        star,
-        setStar,
         api,
         count,
         setCount,
@@ -124,6 +129,7 @@ const NoteState = (props) => {
         updateNoteController,
         updateNoteStatusController,
         deleteNoteController,
+        getAllNoteList,
       }}
     >
       {props.children}

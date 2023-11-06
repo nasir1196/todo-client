@@ -12,33 +12,23 @@ const TABLE_HEAD = [
 ];
 
 function NoteList() {
-  const navigate = useNavigate();
   const context = useContext(NoteContext);
   const {
-    api,
     count,
     notes,
-    getAllNote,
     updateNoteStatusController,
     setNote,
     deleteNoteController,
-    star,
-    setStar,
+    note,
+    getAllNoteList,
+    api,
   } = context;
+  const navigate = useNavigate();
 
-  console.log(star);
-
-  const handleStatus = (e, id) => {
-    e.preventDefault();
-    setStar({ status: e.target.value });
-    if (star) {
-      updateNoteStatusController(id, star);
-    }
-
+  const handleStatus = (id, noteStatus) => {
+    updateNoteStatusController(id, noteStatus);
     if (api) {
-      setTimeout(() => {
-        navigate("/");
-      }, 1000);
+      navigate("/", { replace: true });
     }
   };
 
@@ -47,7 +37,7 @@ function NoteList() {
   };
 
   useEffect(() => {
-    getAllNote();
+    getAllNoteList();
   }, [count]);
   return (
     <div>
@@ -70,8 +60,8 @@ function NoteList() {
           </tr>
         </thead>
         <tbody>
-          {notes?.map((items, index) => {
-            const isLast = index === notes?.length - 1;
+          {notes?.note?.map((items, index) => {
+            const isLast = index === notes?.note?.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
             const { _id, title, description, tag, date, status } = items;
             return (
@@ -98,26 +88,25 @@ function NoteList() {
                 </td>
 
                 <td className="d-flex justify-center items-center">
+                  <select
+                    id="status"
+                    className=" rounded-lg border text-black hover:bg-rose-500 hover:border-emerald-500"
+                    type="text"
+                    value={note.status}
+                    onChange={(e) =>
+                      setNote({ ...note, status: e.target.value })
+                    }
+                  >
+                    <option>Select Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Reject">Reject</option>
+                  </select>
                   <button
-                    value="Active"
                     className="bg-green-500 m-2 text-black py-2 px-5 rounded-md"
-                    onClick={(e) => handleStatus(e, _id)}
+                    onClick={() => handleStatus(_id, note)}
                   >
-                    Active
-                  </button>
-                  <button
-                    value="Pending"
-                    className="bg-yellow-500 m-2 text-black py-2 px-5 rounded-md"
-                    onClick={(e) => handleStatus(e, _id)}
-                  >
-                    Pending
-                  </button>
-                  <button
-                    value="Reject"
-                    className="bg-red-500 m-2 text-black py-2 px-5 rounded-md"
-                    onClick={(e) => handleStatus(e, _id)}
-                  >
-                    Reject
+                    Submit Status
                   </button>
                 </td>
                 <td className="d-flex justify-center items-center">
